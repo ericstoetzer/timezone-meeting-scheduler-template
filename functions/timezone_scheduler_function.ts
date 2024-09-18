@@ -29,10 +29,18 @@ export const TimeZoneSchedulerFunction = DefineFunction({
         description:
           "Time zone of the meeting participant (e.g., 'Europe/London')",
       },
+      duration_minutes: {
+        type: Schema.types.number,
+        description:
+          "Duration of the meeting in minutes (e.g., '30'",
+      },
     },
     required: [
       "meeting_time",
       "user_timezone",
+      "from_timezone",
+      "target_timezone",
+      "duration_minutes",
     ],
   },
   output_parameters: {
@@ -49,15 +57,22 @@ export const TimeZoneSchedulerFunction = DefineFunction({
         type: Schema.slack.types.timestamp,
         description: "Meeting time in the user's timezone",
       },
+      calendar_end_time: {
+        type: Schema.slack.types.timestamp,
+        description: "Meeting end time in the user's timezone",
+      },
     },
     required: [
+      "readable_time_origin",
+      "readable_time_participant",
       "calendar_meeting_time",
+      "calendar_end_time",
     ],
   },
 });
 
 export default SlackFunction(
-  "REPLACE WITH THE FUNCTION DEFINITION HERE", // CHANGE THIS 
+  "SlackFunction(TimeZoneSchedulerFunction, ...)", // CHANGE THIS 
   async ({ inputs }) => {
     /* YOU CAN DECLARE THE INPUTS TOGETHER HERE*/
 
